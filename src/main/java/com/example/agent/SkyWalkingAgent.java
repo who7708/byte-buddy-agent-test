@@ -103,10 +103,10 @@ public class SkyWalkingAgent {
                                      final JavaModule module,
                                      final boolean loaded,
                                      final DynamicType dynamicType) {
-            LogUtils.info("On Transformation class  {}", typeDescription.getName());
+            LogUtils.info("On Transformation class  {}\n", typeDescription.getName());
             String home = System.getProperty("user.home");
             try {
-                dynamicType.saveIn(new File(home + "/IdeaProjects/byte-buddy-test/debugging"));
+                dynamicType.saveIn(new File(home + "/IdeaProjects/byte-buddy-agent-test/byte-buddy-agent-test/debugging"));
             } catch (IOException e) {
                 e.printStackTrace();
             }

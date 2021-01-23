@@ -11,8 +11,9 @@ public class LogUtils {
             format = format.replaceAll("\\{}", "%s");
             final String msg = String.format(format, args);
             System.out.println(msg);
+        } else {
+            System.out.println(format);
         }
-        System.out.println(format);
     }
 
     public static void error(String format, Object... args) {
@@ -20,8 +21,9 @@ public class LogUtils {
             format = format.replaceAll("\\{}", "%s");
             final String msg = String.format(format, args);
             System.err.println(msg);
+        } else {
+            System.err.println(format);
         }
-        System.err.println(format);
     }
 
     public static void warn(String format, Object... args) {

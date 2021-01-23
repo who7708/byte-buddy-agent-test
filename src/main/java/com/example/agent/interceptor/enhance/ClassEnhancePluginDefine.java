@@ -2,7 +2,6 @@ package com.example.agent.interceptor.enhance;
 
 import com.example.agent.constants.SwConstants;
 import com.example.agent.interceptor.InstMethodsInter;
-import com.example.agent.interceptor.enhance.impl.InstanceMethodsAroundInterceptorImpl;
 import com.example.agent.plugin.AbstractClassEnhancePluginDefine;
 import com.example.agent.plugin.EnhanceContext;
 import net.bytebuddy.description.method.MethodDescription;
@@ -67,6 +66,7 @@ public class ClassEnhancePluginDefine extends AbstractClassEnhancePluginDefine {
         return newClassBuilder
                 .method(junction)
                 .intercept(MethodDelegation.withDefaultConfiguration()
-                        .to(new InstMethodsInter(InstanceMethodsAroundInterceptorImpl.class.getName(), classLoader)));
+                        // .to(new InstMethodsInter(InstanceMethodsAroundInterceptorImpl.class.getName(), classLoader)));
+                        .to(new InstMethodsInter()));
     }
 }
