@@ -29,7 +29,8 @@ public class ClassEnhancePluginDefine extends AbstractClassEnhancePluginDefine {
                                              ClassLoader classLoader,
                                              EnhanceContext context) {
         if (!context.isObjectExtended()) {
-            newClassBuilder = newClassBuilder.defineField(SwConstants.CONTEXT_ATTR_NAME, Object.class, ACC_PRIVATE | ACC_VOLATILE)
+            newClassBuilder = newClassBuilder
+                    .defineField(SwConstants.CONTEXT_ATTR_NAME, Object.class, ACC_PRIVATE | ACC_VOLATILE)
                     .implement(EnhancedInstance.class)
                     .intercept(FieldAccessor.ofField(SwConstants.CONTEXT_ATTR_NAME));
             context.extendObjectCompleted();

@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 
+import static net.bytebuddy.matcher.ElementMatchers.any;
 import static net.bytebuddy.matcher.ElementMatchers.isInterface;
 import static net.bytebuddy.matcher.ElementMatchers.isStatic;
 import static net.bytebuddy.matcher.ElementMatchers.nameContains;
@@ -50,7 +51,11 @@ public class SkyWalkingAgent {
         agentBuilder
                 // .type(nameStartsWith())
                 // 要拦截的类
-                .type(nameStartsWith("com.example.demo")
+                // .type(nameStartsWith("com.example.demo")
+                //         .and(not(isInterface()))
+                //         .and(not(isStatic()))
+                // )
+                .type(any()
                         .and(not(isInterface()))
                         .and(not(isStatic()))
                 )

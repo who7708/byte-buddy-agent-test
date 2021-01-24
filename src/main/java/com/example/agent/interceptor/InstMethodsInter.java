@@ -33,7 +33,9 @@ public class InstMethodsInter {
      *                   bug, if anything triggers this condition ).
      */
     @RuntimeType
-    public Object intercept(@This Object obj, @AllArguments Object[] allArguments, @SuperCall Callable<?> zuper,
+    public Object intercept(@This Object obj,
+                            @AllArguments Object[] allArguments,
+                            @SuperCall Callable<?> zuper,
                             @Origin Method method) throws Throwable {
         EnhancedInstance targetObject = (EnhancedInstance) obj;
         long start = System.currentTimeMillis();
