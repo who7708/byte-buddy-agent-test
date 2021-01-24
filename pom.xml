@@ -6,144 +6,58 @@
 
     <groupId>org.example</groupId>
     <artifactId>byte-buddy-agent-test</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
+
+    <modules>
+        <module>agent-core</module>
+        <module>agent-demo</module>
+        <module>link-trace-demo-agent</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <premain.class>com.example.agent.SkyWalkingAgent</premain.class>
         <shade.package>com.example.agent.dependencies</shade.package>
-        <can.redefine.classes>true</can.redefine.classes>
-        <can.retransform.classes>true</can.retransform.classes>
-        <shade.net.bytebuddy.source>net.bytebuddy</shade.net.bytebuddy.source>
-        <shade.net.bytebuddy.target>${shade.package}.${shade.net.bytebuddy.source}</shade.net.bytebuddy.target>
 
         <byte-buddy-version>1.10.19</byte-buddy-version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy-agent</artifactId>
-            <version>${byte-buddy-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.bytebuddy</groupId>
-            <artifactId>byte-buddy</artifactId>
-            <version>${byte-buddy-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.6</version>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.4.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--<dependency>-->
+            <!--    <groupId>p6spy</groupId>-->
+            <!--    <artifactId>p6spy</artifactId>-->
+            <!--    <version>3.8.3</version>-->
+            <!--</dependency>-->
+
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy-agent</artifactId>
+                <version>${byte-buddy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>${byte-buddy-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.8.6</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
-                            <createDependencyReducedPom>true</createDependencyReducedPom>
-                            <createSourcesJar>true</createSourcesJar>
-                            <shadeSourcesContent>true</shadeSourcesContent>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
-                                        <Premain-Class>${premain.class}</Premain-Class>
-                                        <Can-Redefine-Classes>${can.redefine.classes}</Can-Redefine-Classes>
-                                        <Can-Retransform-Classes>${can.retransform.classes}</Can-Retransform-Classes>
-                                    </manifestEntries>
-                                </transformer>
-                            </transformers>
-                            <artifactSet>
-                                <excludes>
-                                    <!--<exclude>*:gson</exclude>-->
-                                    <exclude>io.grpc:*</exclude>
-                                    <exclude>io.netty:*</exclude>
-                                    <exclude>io.opencensus:*</exclude>
-                                    <!--<exclude>com.google.*:*</exclude>-->
-                                    <exclude>com.google.guava:guava</exclude>
-                                    <exclude>org.checkerframework:checker-compat-qual</exclude>
-                                    <exclude>org.codehaus.mojo:animal-sniffer-annotations</exclude>
-                                    <exclude>io.perfmark:*</exclude>
-                                    <exclude>org.slf4j:*</exclude>
-                                </excludes>
-                            </artifactSet>
-                            <relocations>
-                                <relocation>
-                                    <pattern>${shade.net.bytebuddy.source}</pattern>
-                                    <shadedPattern>${shade.net.bytebuddy.target}</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.gson</pattern>
-                                    <shadedPattern>${shade.package}.com.google.gson</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <filters>
-                                <filter>
-                                    <artifact>net.bytebuddy:byte-buddy</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/versions/9/module-info.class</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <tasks>
-                                <delete dir="${project.basedir}/${project.artifactId}"/>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>package</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <tasks>
-                                <mkdir dir="${project.basedir}/${project.artifactId}"/>
-                                <copy file="${project.build.directory}/${project.artifactId}.${project.packaging}"
-                                      tofile="${project.basedir}/${project.artifactId}/${project.artifactId}.${project.packaging}"
-                                      overwrite="true"/>
-                                <mkdir dir="${project.basedir}/${project.artifactId}/config"/>
-                                <mkdir dir="${project.basedir}/${project.artifactId}/logs"/>
-                                <copydir src="${project.basedir}/config"
-                                         dest="${project.basedir}/${project.artifactId}/config"
-                                         forceoverwrite="true"/>
-                                <unzip
-                                        src="${project.basedir}/${project.artifactId}/${project.artifactId}.${project.packaging}"
-                                        dest="${project.basedir}/${project.artifactId}/${project.artifactId}"/>
-                            </tasks>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-        </plugins>
     </build>
-
 </project>

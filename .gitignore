@@ -4,3 +4,5 @@
 target
 dependency-reduced-pom.xml
 /byte-buddy-agent-test/
+/agent-core/**/*.class
+/link-trace-demo-agent/**/*.class
