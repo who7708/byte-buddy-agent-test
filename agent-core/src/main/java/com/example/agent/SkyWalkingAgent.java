@@ -1,20 +1,16 @@
 package com.example.agent;
 
+import com.example.agent.core.MyListener;
+import com.example.agent.core.MyTransformer;
 import com.example.agent.interceptor.enhance.ClassEnhancePluginDefine;
 import com.example.agent.plugin.AbstractClassEnhancePluginDefine;
-import com.example.agent.plugin.EnhanceContext;
 import com.example.agent.plugin.loader.AgentClassLoader;
 import com.example.agent.utils.LogUtils;
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.builder.AgentBuilder;
-import net.bytebuddy.description.type.TypeDescription;
-import net.bytebuddy.dynamic.DynamicType;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.matcher.ElementMatchers;
-import net.bytebuddy.utility.JavaModule;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 
 import static net.bytebuddy.matcher.ElementMatchers.isInterface;
@@ -64,85 +60,14 @@ public class SkyWalkingAgent {
                         .include(ClassLoader.getSystemClassLoader())
                         // .advice()
                 )
-                .transform(new Transformer(define))
+                .transform(new MyTransformer(define))
                 .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
-                .with(new Listener())
+                .with(AgentBuilder.RedefinitionStrategy.REDEFINITION)
+                .with(new MyListener())
                 .installOn(instrumentation);
 
         // Runtime.getRuntime()
         //         .addShutdownHook(new Thread(ServiceManager.INSTANCE::shutdown, "skywalking service shutdown thread"));
     }
 
-    private static class Transformer implements AgentBuilder.Transformer {
-        private AbstractClassEnhancePluginDefine define;
-
-        Transformer(AbstractClassEnhancePluginDefine define) {
-            this.define = define;
-        }
-
-        @Override
-        public DynamicType.Builder<?> transform(final DynamicType.Builder<?> builder,
-                                                final TypeDescription typeDescription,
-                                                final ClassLoader classLoader,
-                                                final JavaModule module) {
-            DynamicType.Builder<?> newBuilder = builder;
-            EnhanceContext context = new EnhanceContext();
-            // for (AbstractClassEnhancePluginDefine define : pluginDefines) {
-            DynamicType.Builder<?> possibleNewBuilder = define.define(typeDescription, newBuilder, classLoader, context);
-            if (possibleNewBuilder != null) {
-                newBuilder = possibleNewBuilder;
-            }
-            // }
-            if (context.isEnhanced()) {
-                LogUtils.debug("Finish the prepare stage for {}.", typeDescription.getName());
-            }
-
-            return newBuilder;
-        }
-    }
-
-    private static class Listener implements AgentBuilder.Listener {
-        @Override
-        public void onDiscovery(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
-            // LogUtils.info("On Discovery  {}", typeName);
-        }
-
-        @Override
-        public void onTransformation(final TypeDescription typeDescription,
-                                     final ClassLoader classLoader,
-                                     final JavaModule module,
-                                     final boolean loaded,
-                                     final DynamicType dynamicType) {
-            LogUtils.info("On Transformation class  {}\n", typeDescription.getName());
-            String home = System.getProperty("user.home");
-            try {
-                dynamicType.saveIn(new File(home + "/IdeaProjects/byte-buddy-agent-test/agent-core/agent-core/debugging"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        @Override
-        public void onIgnored(final TypeDescription typeDescription,
-                              final ClassLoader classLoader,
-                              final JavaModule module,
-                              final boolean loaded) {
-            // LogUtils.info("On Ignore  {}", typeDescription.getName());
-        }
-
-        @Override
-        public void onError(final String typeName,
-                            final ClassLoader classLoader,
-                            final JavaModule module,
-                            final boolean loaded,
-                            final Throwable throwable) {
-            LogUtils.info("On Error {} error {}", typeName, throwable);
-        }
-
-        @Override
-        public void onComplete(String typeName, ClassLoader classLoader, JavaModule module, boolean loaded) {
-            // LogUtils.info("On Complete  {}", typeName);
-        }
-    }
 }
