@@ -45,7 +45,7 @@ public class ApiController {
     }
 
     @GetMapping("/testservice")
-    public String service(HttpServletRequest request) {
+    public String service(HttpServletRequest request, HttpServletResponse response) {
         apiService.testservice(request);
         return "testhttp";
     }

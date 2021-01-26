@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
 public class RandomController {
 
     @GetMapping("")
-    public Object random() {
+    public Object random(HttpServletRequest request, HttpServletResponse response) {
         List<Row> list = new ArrayList<>();
 
         list.add(new Row("RandomStringUtils.random(5)", RandomStringUtils.random(5), "产生5位长度的随机字符串，中文环境下是乱码"));
