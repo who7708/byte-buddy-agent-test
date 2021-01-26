@@ -33,7 +33,7 @@ management.endpoints.web.exposure.include=*
 * agent
 
 ```
-java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:agent.jar -Dserver.port=7001 -jar target/spring-boot-demo.jar
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -javaagent:agent.jar -Dserver.port=7001 -jar target/agent-demo.jar
 ```
 
 #### 2021/01/21
