@@ -1,4 +1,4 @@
-package com.maggie.measure.intercept;
+package com.example.demo.intercept;
 
 import com.maggie.measure.tracecontext.Span;
 import com.maggie.measure.tracecontext.TraceContext;

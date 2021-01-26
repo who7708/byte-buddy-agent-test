@@ -1,8 +1,8 @@
 package com.maggie.measure.agent;
 
-import com.maggie.measure.intercept.MyControllerAdvice;
-import com.maggie.measure.intercept.MyHttpAdvice;
-import com.maggie.measure.intercept.MyServiceAdvice;
+import com.example.demo.intercept.MyControllerAdvice;
+import com.example.demo.intercept.MyHttpAdvice;
+import com.example.demo.intercept.MyServiceAdvice;
 import com.maggie.measure.loader.AgentClassLoader;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.method.MethodDescription;

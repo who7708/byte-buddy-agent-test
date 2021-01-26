@@ -1,4 +1,4 @@
-package com.maggie.measure.client;
+package com.example.demo.client;
 
 /**
  * 代理模式[[ 客户端--》代理对象--》目标对象 ]]

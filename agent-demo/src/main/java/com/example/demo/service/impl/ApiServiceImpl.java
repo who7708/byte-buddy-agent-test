@@ -1,6 +1,6 @@
-package com.maggie.measure.service.impl;
+package com.example.demo.service.impl;
 
-import com.maggie.measure.service.ApiService;
+import com.example.demo.service.ApiService;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

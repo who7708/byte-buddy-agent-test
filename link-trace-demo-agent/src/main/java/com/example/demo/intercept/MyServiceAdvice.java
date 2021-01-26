@@ -1,4 +1,4 @@
-package com.maggie.measure.intercept;
+package com.example.demo.intercept;
 
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;

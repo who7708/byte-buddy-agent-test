@@ -1,11 +1,9 @@
-package com.maggie.measure.config;
+package com.example.demo.config;
 
-import com.maggie.measure.intercept.ServiceInterceptor;
-import com.maggie.measure.intercept.WebInterceptor;
+import com.example.demo.intercept.ServiceInterceptor;
+import com.example.demo.intercept.WebInterceptor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * @author Chris
@@ -19,7 +17,7 @@ public class WebAspectConfig {
     @Bean
     public AspectJExpressionPointcutAdvisor webInterceptor() {
         AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
-        advisor.setExpression("execution(public * com.maggie.measure.controller..*(..))");
+        advisor.setExpression("execution(public * com.example.demo.controller..*(..))");
         advisor.setAdvice(new WebInterceptor());
         return advisor;
     }
@@ -27,7 +25,7 @@ public class WebAspectConfig {
     @Bean
     public AspectJExpressionPointcutAdvisor serviceInterceptor() {
         AspectJExpressionPointcutAdvisor advisor = new AspectJExpressionPointcutAdvisor();
-        advisor.setExpression("execution(public * com.maggie.measure.service..*(..))");
+        advisor.setExpression("execution(public * com.example.demo.service..*(..))");
         advisor.setAdvice(new ServiceInterceptor());
         return advisor;
     }

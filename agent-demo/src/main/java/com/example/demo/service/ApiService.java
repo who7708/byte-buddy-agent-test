@@ -1,4 +1,4 @@
-package com.maggie.measure.service;
+package com.example.demo.service;
 
 import javax.servlet.http.HttpServletRequest;
 

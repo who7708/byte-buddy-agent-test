@@ -1,6 +1,7 @@
-package com.maggie.measure.controller;
+package com.example.demo.controller;
 
-import com.maggie.measure.service.ApiService;
+import com.example.demo.service.ApiService;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -23,10 +25,17 @@ public class ApiController {
     ApiService apiService;
 
     @GetMapping("/testweb")
-    public String web(HttpServletRequest request) throws IOException {
+    public String web(HttpServletRequest request, HttpServletResponse response) throws IOException {
         CloseableHttpClient client = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet("/testweb2");
+        HttpGet httpGet = new HttpGet("http://localhost:7001/testweb2");
         CloseableHttpResponse execute = client.execute(httpGet);
+        //取出返回体
+        HttpEntity entity = execute.getEntity();
+        // // 得到给前台的响应流
+        // ServletOutputStream out = response.getOutputStream();
+        // //将返回体通过响应流写到前台
+        // entity.writeTo(out);
+        // out.flush();
         return execute.toString();
     }
 

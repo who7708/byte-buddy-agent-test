@@ -1,4 +1,4 @@
-package com.maggie.measure.intercept;
+package com.example.demo.intercept;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

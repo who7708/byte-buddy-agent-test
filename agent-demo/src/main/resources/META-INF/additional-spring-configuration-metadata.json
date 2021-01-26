@@ -1,8 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "mapi-sleuth-log.enabled",
-      "type": "java.lang.String",
-      "description": "Description for mapi-sleuth-log.enabled."
-  }
-] }
