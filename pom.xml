@@ -12,7 +12,7 @@
     <modules>
         <module>agent-core</module>
         <module>agent-demo</module>
-        <module>link-trace-demo-agent</module>
+        <!--<module>link-trace-demo-agent</module>-->
     </modules>
 
     <properties>

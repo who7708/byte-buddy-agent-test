@@ -29,7 +29,7 @@ public class MyListener implements AgentBuilder.Listener {
         LogUtils.info("On Transformation class  {}\n", typeDescription.getName());
         String home = System.getProperty("user.home");
         try {
-            dynamicType.saveIn(new File(home + "/IdeaProjects/byte-buddy-agent-test/agent-core/agent-core/debugging"));
+            dynamicType.saveIn(new File(home + "/IdeaProjects/byte-buddy-agent-test/dist/agent-core/debugging"));
         } catch (IOException e) {
             e.printStackTrace();
         }

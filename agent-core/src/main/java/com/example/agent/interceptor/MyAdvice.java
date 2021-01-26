@@ -23,7 +23,6 @@ public class MyAdvice {
         }
         String entrySpan = TrackManager.createEntrySpan();
         System.out.println("链路追踪：" + entrySpan + " " + className + "." + methodName);
-
     }
 
     @Advice.OnMethodExit()
